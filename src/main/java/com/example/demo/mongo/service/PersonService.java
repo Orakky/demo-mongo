@@ -1,7 +1,8 @@
 package com.example.demo.mongo.service;
 
+import com.example.demo.mongo.bean.BaseCondition;
 import com.example.demo.mongo.bean.Person;
-import org.springframework.data.domain.Page;
+import org.bson.Document;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,10 +29,9 @@ public interface PersonService {
 
     /**
      * 根据条件+分页查询mongodb
-     * @param page
      * @param condition
      * @return
      */
-    List<Person> queryPeron(Page page, BaseCondition condition);
+    List<Document> queryPeron(BaseCondition condition);
 
 }
