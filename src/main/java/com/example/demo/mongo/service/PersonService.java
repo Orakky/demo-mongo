@@ -1,6 +1,7 @@
 package com.example.demo.mongo.service;
 
 import com.example.demo.mongo.bean.Person;
+import com.example.demo.mongo.bean.PersonGroup;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,12 @@ public interface PersonService {
      */
     Collection<Person> savePersonToMongo();
 
+
+    /**
+     * 将mysql中查询到person处理好保存至mongo中
+     * @return
+     */
+    Collection<PersonGroup> savePersonGroupToMongo();
 
 
 }

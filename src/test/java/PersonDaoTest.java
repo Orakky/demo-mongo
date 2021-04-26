@@ -1,7 +1,9 @@
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.DemoApplication;
 import com.example.demo.mongo.bean.Person;
+import com.example.demo.mongo.bean.PersonGroup;
 import com.example.demo.mysql.dao.PersonDao;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,4 +37,46 @@ public class PersonDaoTest {
     }
 
 
+
+    @Test
+    public void persontoPersonGroupTest(){
+
+        List<Person> personList = personDao.queryAllPerson();
+        List<PersonGroup> dataList = personToPersonGroup(personList);
+
+
+    }
+
+    /**
+     * 将
+     * @return
+     */
+    private List<PersonGroup> personToPersonGroup(List<Person> personList) {
+
+        //根据name分组
+        List<PersonGroup> dataList = new ArrayList<>();
+
+        
+        Set<Integer> allAgeSet = new HashSet<>();
+        personList.forEach(o->{
+            o.setName(o.getName());
+            allAgeSet.add(o.getAge());
+        });
+
+        //根据name分组
+        personList.stream().collect(Collectors.groupingBy((o) -> StringUtils.joinWith("\t", o.getName(), o.getAge()), Collectors.counting()))
+                .forEach((v,k)->{
+                    final PersonGroup group = new PersonGroup();
+                    final String[] split = v.split("\t");
+                    group.setName(split[0]);
+                    group.setAge(Integer.parseInt(split[1]));
+                    group.setTelTotal(Integer.parseInt(String.valueOf(k)));
+                    dataList.add(group);
+                });
+
+        LOGGER.info("完成分组与组装 ： {}" + JSONObject.toJSONString(dataList));
+
+
+        return dataList;
+    }
 }

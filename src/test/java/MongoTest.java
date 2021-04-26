@@ -36,4 +36,10 @@ public class MongoTest {
     }
 
 
+    @Test
+    public void testGroupMongo(){
+        personService.savePersonGroupToMongo();
+    }
+
+
 }
