@@ -3,7 +3,6 @@ package com.example.demo.mongo.service;
 import com.example.demo.mongo.bean.BaseCondition;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
-import org.bson.Document;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
@@ -42,7 +41,7 @@ public interface PersonService {
      * @return
      * fixme
      */
-    List<Document> queryPeron(BaseCondition condition);
+    List<Person> queryPeron(BaseCondition condition);
 
 
     /**
@@ -52,6 +51,9 @@ public interface PersonService {
      * @return
      */
     PageImpl<Person> personList(Pageable pageable, BaseCondition condition);
+
+
+
 
 
 

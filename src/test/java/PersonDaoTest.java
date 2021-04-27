@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.DemoApplication;
+import com.example.demo.mongo.bean.NewPerson;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
 import com.example.demo.mysql.dao.PersonDao;
@@ -48,7 +49,7 @@ public class PersonDaoTest {
     }
 
     /**
-     * 将
+     * 分组组装数据
      * @return
      */
     private List<PersonGroup> personToPersonGroup(List<Person> personList) {
@@ -64,7 +65,7 @@ public class PersonDaoTest {
         });
 
         //根据name分组
-        personList.stream().collect(Collectors.groupingBy((o) -> StringUtils.joinWith("\t", o.getName(), o.getAge()), Collectors.counting()))
+        personList.stream().collect(Collectors.groupingBy((o) -> StringUtils.joinWith("\t", o.getName()), Collectors.counting()))
                 .forEach((v,k)->{
                     final PersonGroup group = new PersonGroup();
                     final String[] split = v.split("\t");
@@ -79,4 +80,64 @@ public class PersonDaoTest {
 
         return dataList;
     }
+
+
+    @Test
+    public void personToNewPersonTest(){
+        List<Person> personList = personDao.queryAllPerson();
+
+        //组装新数据
+        List<NewPerson> dataList = personToNewPerson(personList);
+
+        //数据过滤，将age=10的数据过滤掉
+
+        List<NewPerson> collect = dataList.stream().filter(o -> (o.getAge() != 10)).collect(Collectors.toList());
+        LOGGER.info("将age=10的数据过滤掉：{}",JSONObject.toJSONString(collect));
+
+
+        List<PersonGroup> list = new ArrayList<>();
+
+         personList.stream().map(o -> {
+            Person person = new Person();
+            person.setName(o.getName());
+            person.setAge(o.getAge());
+            person.setTel(o.getTel());
+            return person;
+        }).filter(o -> (o.getAge() != 10)).collect(Collectors.groupingBy((o) -> StringUtils.joinWith("\t", o.getName(), o.getAge()), Collectors.counting()))
+                .forEach((v,k)->{
+                    final PersonGroup group = new PersonGroup();
+                    final String[] split = v.split("\t");
+                    group.setName(split[0]);
+                    group.setAge(Integer.parseInt(split[1]));
+                    group.setTelTotal(Integer.parseInt(String.valueOf(k)));
+                    list.add(group);
+                });
+
+        LOGGER.info(JSONObject.toJSONString(list));
+    }
+
+    /**
+     * 将person组装成newPerson
+     * @param personList
+     * @return
+     */
+    private List<NewPerson> personToNewPerson(List<Person> personList) {
+        List<NewPerson> dataList = new ArrayList<>();
+
+        personList.forEach((k)->{
+            final NewPerson newPerson = new NewPerson();
+            newPerson.setName(k.getName());
+            newPerson.setAge(k.getAge());
+            dataList.add(newPerson);
+        });
+
+        LOGGER.info("完成新集合的组装 : {}",JSONObject.toJSONString(dataList));
+        return dataList;
+    }
+
+
+
+
+
+
 }

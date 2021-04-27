@@ -130,9 +130,8 @@ public class PersonServiceImpl implements PersonService {
      * fixme
      */
     @Override
-    public List<Document> queryPeron(BaseCondition condition) {
+    public List<Person> queryPeron(BaseCondition condition) {
 
-        List<Document> resultList = new ArrayList<>();
         Query query = new Query();
         Criteria criteria = Criteria.where("name").is(condition.getNameStr());
         query.addCriteria(criteria);
@@ -142,10 +141,9 @@ public class PersonServiceImpl implements PersonService {
                 Sort.Order.asc("tel")
         ));
 
-        mongoTemplate.executeQuery(query,"Person",person ->{
-            resultList.add(person);
-        });
-       return  resultList;
+
+        List<Person> personList = mongoTemplate.find(query, Person.class);
+       return  personList;
     }
 
     /**

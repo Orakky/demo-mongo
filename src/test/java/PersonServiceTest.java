@@ -41,10 +41,10 @@ public class PersonServiceTest {
 
         BaseCondition condition = new BaseCondition();
 
-        condition.setNameStr("Orakky");
+        condition.setNameStr("orakky");
         condition.setNumber(0);
-        condition.setSize(5);
-        List<Document> documents = personService.queryPeron(condition);
+        condition.setSize(2);
+        List<Person> documents = personService.queryPeron(condition);
 
         LOGGER.info("分页查询，当前页有: {}",JSONObject.toJSONString(documents));
     }
@@ -54,11 +54,13 @@ public class PersonServiceTest {
     public void personListTest(){
 
         Pageable pageable;
-        pageable = PageRequest.of(0,1);
+        Sort count = Sort.by(Sort.Direction.ASC, "count");
+        pageable = PageRequest.of(0,1, count);
         BaseCondition condition = new BaseCondition();
         condition.setTel("111");
         PageImpl<Person> personList = personService.personList(pageable, condition);
 
-        LOGGER.info("分页查询，当前页数据为：{}",personList);
+        LOGGER.info("分页查询，当前页数据为：{}",JSONObject.toJSONString(personList.getContent()));
+        LOGGER.info("分页查询，当前页数据为：{}",JSONObject.toJSONString(personList.getTotalElements()));
     }
 }
