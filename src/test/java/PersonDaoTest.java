@@ -114,6 +114,27 @@ public class PersonDaoTest {
                 });
 
         LOGGER.info(JSONObject.toJSONString(list));
+
+
+
+        //todo
+        List<String> tels = new ArrayList<>();
+        personList.stream().map(o->{
+            Person person = new Person();
+            person.setName(o.getName());
+            person.setAge(o.getAge());
+            person.setTel(o.getTel());
+            return person;
+        }).collect(Collectors.groupingBy((o) -> StringUtils.joinWith("\t", o.getName(), o.getAge())))
+                .forEach((k,persons)->{
+                   persons.stream().map(Person::getTel).forEach((o)->{
+                       String tel = o.substring(0,2);
+                       tels.add(tel);
+
+                   });
+                });
+
+
     }
 
     /**
