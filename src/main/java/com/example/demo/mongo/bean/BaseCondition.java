@@ -13,6 +13,15 @@ public class BaseCondition {
 
     private int size;
 
+    private String tel;
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
 
     public int getNumber() {
         return number;

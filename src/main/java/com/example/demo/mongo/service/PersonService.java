@@ -4,6 +4,8 @@ import com.example.demo.mongo.bean.BaseCondition;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
 import org.bson.Document;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,9 +40,18 @@ public interface PersonService {
      * 根据条件+分页查询mongodb
      * @param condition
      * @return
+     * fixme
      */
     List<Document> queryPeron(BaseCondition condition);
 
+
+    /**
+     * 利用mongoTemplate封装好的分页工具查询
+     * @param pageable
+     * @param condition
+     * @return
+     */
+    PageImpl<Person> personList(Pageable pageable, BaseCondition condition);
 
 
 

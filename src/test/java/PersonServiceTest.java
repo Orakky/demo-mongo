@@ -11,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -48,5 +47,18 @@ public class PersonServiceTest {
         List<Document> documents = personService.queryPeron(condition);
 
         LOGGER.info("分页查询，当前页有: {}",JSONObject.toJSONString(documents));
+    }
+
+
+    @Test
+    public void personListTest(){
+
+        Pageable pageable;
+        pageable = PageRequest.of(0,1);
+        BaseCondition condition = new BaseCondition();
+        condition.setTel("111");
+        PageImpl<Person> personList = personService.personList(pageable, condition);
+
+        LOGGER.info("分页查询，当前页数据为：{}",personList);
     }
 }

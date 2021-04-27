@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.mongo.bean.BaseCondition;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
+import com.example.demo.mongo.common.CommonMongoTemplate;
 import com.example.demo.mongo.service.PersonService;
 import com.example.demo.mysql.dao.PersonDao;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,8 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -39,6 +42,10 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonDao personDao;
+
+
+    @Autowired
+    private CommonMongoTemplate commonMongoTemplate;
 
     /**
      * 查询出所有的人员
@@ -120,6 +127,7 @@ public class PersonServiceImpl implements PersonService {
      *
      * @param condition
      * @return
+     * fixme
      */
     @Override
     public List<Document> queryPeron(BaseCondition condition) {
@@ -134,12 +142,25 @@ public class PersonServiceImpl implements PersonService {
                 Sort.Order.asc("tel")
         ));
 
-
         mongoTemplate.executeQuery(query,"Person",person ->{
             resultList.add(person);
         });
        return  resultList;
     }
 
+    /**
+     * 利用mongoTemplate封装好的分页工具查询
+     *
+     * @param pageable
+     * @param condition
+     * @return
+     */
+    @Override
+    public PageImpl<Person> personList(Pageable pageable, BaseCondition condition) {
 
+
+        return commonMongoTemplate.page(pageable,Person.class,Criteria.where("tel").is(condition.getTel()));
+
+
+    }
 }
