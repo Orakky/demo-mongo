@@ -1,7 +1,9 @@
 package com.example.demo.mongo.service;
 
+import com.example.demo.mongo.bean.BaseCondition;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
+import org.bson.Document;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,5 +34,11 @@ public interface PersonService {
      */
     Collection<PersonGroup> savePersonGroupToMongo();
 
+    /**
+     * 根据条件+分页查询mongodb
+     * @param condition
+     * @return
+     */
+    List<Document> queryPeron(BaseCondition condition);
 
 }
