@@ -15,6 +15,16 @@ public class BaseCondition {
 
     private String tel;
 
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public String getTel() {
         return tel;
     }

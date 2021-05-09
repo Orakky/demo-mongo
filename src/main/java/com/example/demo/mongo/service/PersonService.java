@@ -53,7 +53,12 @@ public interface PersonService {
     PageImpl<Person> personList(Pageable pageable, BaseCondition condition);
 
 
-
+    /**
+     * mongo查询列表，实现分页查询
+     * @param condition
+     * @return
+     */
+    PageImpl<PersonGroup> personGroupList(Pageable pageable,BaseCondition condition);
 
 
 

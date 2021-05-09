@@ -155,10 +155,20 @@ public class PersonServiceImpl implements PersonService {
      */
     @Override
     public PageImpl<Person> personList(Pageable pageable, BaseCondition condition) {
-
-
         return commonMongoTemplate.page(pageable,Person.class,Criteria.where("tel").is(condition.getTel()));
+    }
 
 
+    /**
+     * mongo查询列表，实现分页查询
+     *
+     * @param condition
+     * @return
+     * todo
+     */
+    @Override
+    public PageImpl<PersonGroup> personGroupList(Pageable pageable, BaseCondition condition) {
+
+        return null;
     }
 }
