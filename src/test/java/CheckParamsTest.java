@@ -41,7 +41,7 @@ public class CheckParamsTest {
     }
 
 
-    @CheckParams
+    @CheckParams("1111")
     public void check(String a){
         System.out.println("a:"+a);
     }
