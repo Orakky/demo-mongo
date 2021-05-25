@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  *
  * @Target标志作用于method 方法 和type
  */
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CheckParams {

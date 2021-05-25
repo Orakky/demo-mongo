@@ -16,6 +16,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 /**
  * @ClassName CheckParamsAspect
  * @DESCRIPTION 实现checkparams 参数校验注解的aop切面
@@ -44,16 +46,17 @@ public class CheckParamsAspect {
     @Around("annotationPointCut()")
     public Object doAround(ProceedingJoinPoint joinPoint){
 
-        ServletRequestAttributes servletRequestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
+//        ServletRequestAttributes servletRequestAttributes =
+//                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest request = servletRequestAttributes.getRequest();
 
         LOGGER.info("进入切面，开始检查参数是否符合标准");
+
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         //获取参数名称
         String[] params = methodSignature.getParameterNames();
         //获取参数值
-        Object[] args = joinPoint.getArgs();
+        Object args = joinPoint.getArgs();
 
         CheckParams annotation =  methodSignature.getMethod().getAnnotation(CheckParams.class);
 
@@ -65,9 +68,9 @@ public class CheckParamsAspect {
 
 
         //如果参数为空 或者 参数为null
-        if(null == params || params.length == 0){
+        if(args.toString()!="1"){
                 LOGGER.info("参数格式校验不正确！");
-                return "参数格式校验不正确！";
+                throw new RuntimeException("参数格式校验不正确！");
         }else{
             LOGGER.info("参数格式校验成功！");
             return "参数校验成功!";

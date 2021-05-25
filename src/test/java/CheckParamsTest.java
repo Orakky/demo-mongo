@@ -1,9 +1,11 @@
 import com.example.demo.DemoApplication;
 import com.example.demo.annotation.CheckParams;
+import com.example.demo.aspect.Check;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,6 +24,8 @@ public class CheckParamsTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckParamsTest.class);
     
 
+    @Autowired
+    private Check check;
 
 
     
@@ -35,14 +39,12 @@ public class CheckParamsTest {
     @Test
     public void checkTest(){
 
-        check("aa");
+        String a = "2";
+        check.check(a);
         LOGGER.info("测试结束！");
 
     }
 
 
-    @CheckParams("1111")
-    public void check(String a){
-        System.out.println("a:"+a);
-    }
+
 }
