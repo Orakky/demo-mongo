@@ -16,6 +16,17 @@ public class Person {
 
     private String tel;
 
+    private String preffixName;
+
+
+    public String getPreffixName() {
+
+     return this.name + "ttt";
+    }
+
+    public void setPreffixName(String preffixName) {
+        this.preffixName = preffixName;
+    }
 
     public Integer getId() {
         return id;
