@@ -1,9 +1,11 @@
 package com.example.demo.mongo.bean;
 
+import java.io.Serializable;
+
 /**
  * 新person实体类
  */
-public class NewPerson {
+public class NewPerson implements Serializable {
 
     private String name;
 

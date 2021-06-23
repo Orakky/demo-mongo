@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.DemoApplication;
+import com.example.demo.mongo.bean.NewPerson;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.service.PersonService;
 import com.example.demo.mysql.dao.PersonDao;
@@ -15,6 +16,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -41,7 +43,6 @@ public class JedisTest {
 
         //1 连接redis
 
-
         Jedis jedis = new Jedis("127.0.0.1", 6379);
         //2 操作redis
 
@@ -67,7 +68,34 @@ public class JedisTest {
 
     }
 
+    @Test
+    public void deleteRedis(){
+        Boolean testKey = redisTemplate.delete("testKey");
 
+        LOGGER.info(String.valueOf(testKey));
+
+    }
+
+
+
+
+    @Test
+    public void addPersonRedis(){
+        NewPerson person = new NewPerson();
+
+        person.setName("Orakky");
+        person.setAge(21);
+
+        redisTemplate.opsForValue().set("testPerson",person);
+
+        Object testKey = redisTemplate.opsForValue().get("testPerson");
+
+        LOGGER.info(JSONObject.toJSONString(testKey));
+
+
+
+
+    }
 
 
 
