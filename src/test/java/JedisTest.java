@@ -4,6 +4,7 @@ import com.example.demo.mongo.bean.NewPerson;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.service.PersonService;
 import com.example.demo.mysql.dao.PersonDao;
+import com.example.demo.utils.RedisUtils.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ public class JedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     public void testJedis(){
@@ -92,7 +96,15 @@ public class JedisTest {
 
         LOGGER.info(JSONObject.toJSONString(testKey));
 
+    }
 
+
+    @Test
+    public void testHasKey(){
+
+        List<Person> personList = personDao.queryAllPerson();
+
+         redisUtil.listSet("personList", personList);
 
 
     }

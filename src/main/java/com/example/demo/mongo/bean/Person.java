@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 
 @Document(collection = "person")//对应集合名称
-public class Person implements Serializable {
+public class Person  {
 
     @Id
     private Integer id;
