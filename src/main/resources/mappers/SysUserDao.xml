@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.register.dao.SysUserDao">
+
+
+
+    <select id="selectByName" resultType="com.example.demo.register.bean.SysUser">
+        SELECT * FROM sys_user WHERE name = #{username}
+    </select>
+
+    <select id="insert" parameterType="com.example.demo.register.bean.SysUser">
+        insert into sys_user values ( null, #{name}, #{password})
+    </select>
+</mapper>
+

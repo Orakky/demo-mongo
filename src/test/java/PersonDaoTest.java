@@ -4,6 +4,8 @@ import com.example.demo.mongo.bean.NewPerson;
 import com.example.demo.mongo.bean.Person;
 import com.example.demo.mongo.bean.PersonGroup;
 import com.example.demo.mysql.dao.PersonDao;
+import com.example.demo.register.bean.SysUser;
+import com.example.demo.register.dao.SysUserDao;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,8 @@ public class PersonDaoTest {
     @Autowired
     private PersonDao personDao;
 
+    @Autowired
+    private SysUserDao sysUserDao;
 
     @Test
     public void personDaoTest(){
@@ -157,6 +161,12 @@ public class PersonDaoTest {
     }
 
 
+
+    @Test
+    public void userTest(){
+        SysUser user = sysUserDao.selectByName("user");
+        LOGGER.info("sysUser为:{}",JSONObject.toJSONString(user));
+    }
 
 
 
