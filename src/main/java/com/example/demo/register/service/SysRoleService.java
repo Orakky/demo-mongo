@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  * SysRoleService
  */
-@Service
+
 public interface SysRoleService {
 
     /**

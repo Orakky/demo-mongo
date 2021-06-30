@@ -25,8 +25,9 @@ public class RedisConfig {
      * @return
      */
     @Bean
-    public RedisTemplate<Object,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<Object,Object> redisTemplate = new RedisTemplate<>();
+    @SuppressWarnings("all")
+    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         //使用GenericFastJsonRedisSerializer替换默认序列化

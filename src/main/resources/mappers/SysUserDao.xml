@@ -8,8 +8,8 @@
         SELECT * FROM sys_user WHERE name = #{username}
     </select>
 
-    <select id="insert" parameterType="com.example.demo.register.bean.SysUser">
+    <insert id="insert" parameterType="com.example.demo.register.bean.SysUser">
         insert into sys_user values ( null, #{name}, #{password})
-    </select>
+    </insert>
 </mapper>
 

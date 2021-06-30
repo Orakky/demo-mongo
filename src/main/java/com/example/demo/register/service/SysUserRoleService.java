@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * sysUserRoleService
  */
-@Service
 public interface SysUserRoleService {
 
     /**

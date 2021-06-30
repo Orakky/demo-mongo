@@ -30,7 +30,7 @@ public class RedisUtil {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public RedisUtil(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 

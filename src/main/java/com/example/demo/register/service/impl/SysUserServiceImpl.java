@@ -5,11 +5,13 @@ import com.example.demo.register.dao.SysUserDao;
 import com.example.demo.register.service.SysUserService;
 import com.example.demo.utils.RedisUtils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 /**
  * sysUserServiceImpl
  */
+@Service
 public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
@@ -44,6 +46,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public int insert(SysUser user) {
+        redisUtil.del("SysUserService");
         return sysUserDao.insert(user);
     }
 }

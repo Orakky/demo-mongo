@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  * sysUserService
  */
-@Service
+
 public interface SysUserService {
 
     /**
