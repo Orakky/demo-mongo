@@ -60,11 +60,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         //添加权限
         List<SysUserRole> userRoles = sysUserRoleService.listByUserId(user.getId());
 
-//        userRoles.stream().forEach(o->{
-//            SysRole role = sysRoleService.selectById(o.getRoleId());
-//            grantedAuthorityList.add(new SimpleGrantedAuthority(role.getName()));
-//        });
-
         for (SysUserRole userRole : userRoles) {
             SysRole role = sysRoleService.selectById(userRole.getRoleId());
             grantedAuthorityList.add(new SimpleGrantedAuthority(role.getName()));
