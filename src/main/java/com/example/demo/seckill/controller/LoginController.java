@@ -1,0 +1,41 @@
+package com.example.demo.seckill.controller;
+
+import com.example.demo.seckill.bean.LoginVo;
+import com.example.demo.seckill.service.TUserService;
+import com.example.demo.utils.Response.RespVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+/**
+ * 登录页面跳转controller
+ */
+@ Controller
+@RequestMapping("/login")
+public class LoginController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
+
+    @Autowired
+    private TUserService tuserService;
+
+    @RequestMapping("/toLogin")
+    public String toLogin(){
+        return "login";
+    }
+
+    @RequestMapping("/doLogin")
+    @ResponseBody
+    public RespVo doLogin(@Valid LoginVo loginVo){
+        LOGGER.info("{}",loginVo);
+        return tuserService.doLogin(loginVo);
+    }
+
+}
