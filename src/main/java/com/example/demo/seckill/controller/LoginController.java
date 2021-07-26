@@ -1,5 +1,6 @@
 package com.example.demo.seckill.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.seckill.bean.LoginVo;
 import com.example.demo.seckill.service.TUserService;
 import com.example.demo.utils.Response.RespVo;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +18,7 @@ import javax.validation.Valid;
 /**
  * 登录页面跳转controller
  */
-@ Controller
+@Controller
 @RequestMapping("/login")
 public class LoginController {
 
@@ -33,8 +35,8 @@ public class LoginController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public RespVo doLogin(@Valid LoginVo loginVo){
-        LOGGER.info("{}",loginVo);
+    public RespVo doLogin(@Valid @RequestBody LoginVo loginVo){
+        LOGGER.info("{}", JSONObject.toJSON(loginVo));
         return tuserService.doLogin(loginVo);
     }
 

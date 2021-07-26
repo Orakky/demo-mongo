@@ -16,6 +16,18 @@ public class RespVo {
         return code;
     }
 
+    public void setCode(long code) {
+        this.code = code;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setObj(Object obj) {
+        this.obj = obj;
+    }
+
     public String getMessage() {
         return message;
     }

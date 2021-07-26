@@ -4,6 +4,7 @@ import com.example.demo.seckill.bean.LoginVo;
 import com.example.demo.seckill.bean.TUser;
 import com.example.demo.seckill.common.ValidateUtil;
 import com.example.demo.seckill.dao.TUserDao;
+import com.example.demo.seckill.exception.GlobalException;
 import com.example.demo.seckill.service.TUserService;
 import com.example.demo.utils.Md5Utils.MD5Util;
 import com.example.demo.utils.Response.RespVo;
@@ -47,12 +48,14 @@ public class TUserServiceImpl implements TUserService {
         TUser tUser = tUserDao.selectById(mobile);
 
         if(tUser == null){
-            return RespVo.error(RespVoEnum.LOGIN_ERROR);
+//            return RespVo.error(RespVoEnum.LOGIN_ERROR);
+            throw new GlobalException(RespVoEnum.LOGIN_ERROR);
         }
 
         //判断密码是否正确
         if(!MD5Util.fromPassToDBPass(password,tUser.getSlat()).equals(tUser.getPassword())){
-            return RespVo.error(RespVoEnum.LOGIN_ERROR);
+//            return RespVo.error(RespVoEnum.LOGIN_ERROR);
+            throw new GlobalException(RespVoEnum.LOGIN_ERROR);
         }
         return RespVo.success();
     }
