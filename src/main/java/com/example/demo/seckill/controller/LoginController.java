@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -35,9 +37,9 @@ public class LoginController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public RespVo doLogin(@Valid @RequestBody LoginVo loginVo){
+    public RespVo doLogin( @RequestBody LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
         LOGGER.info("{}", JSONObject.toJSON(loginVo));
-        return tuserService.doLogin(loginVo);
+        return tuserService.doLogin(loginVo,request,response);
     }
 
 }
