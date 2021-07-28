@@ -37,7 +37,7 @@ public class LoginController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public RespVo doLogin( @RequestBody LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
+    public RespVo doLogin( @RequestBody  LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
         LOGGER.info("{}", JSONObject.toJSON(loginVo));
         return tuserService.doLogin(loginVo,request,response);
     }

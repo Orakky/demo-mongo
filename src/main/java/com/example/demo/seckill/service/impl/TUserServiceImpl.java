@@ -8,11 +8,14 @@ import com.example.demo.seckill.service.TUserService;
 import com.example.demo.utils.CookieUtils.CookieUtil;
 import com.example.demo.utils.CookieUtils.UUIDUtil;
 import com.example.demo.utils.Md5Utils.MD5Util;
+import com.example.demo.utils.RedisUtils.RedisUtil;
 import com.example.demo.utils.Response.RespVo;
 import com.example.demo.utils.Response.RespVoEnum;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,9 @@ public class TUserServiceImpl implements TUserService {
 
     @Autowired
     private TUserDao tUserDao;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     /**
@@ -66,9 +72,35 @@ public class TUserServiceImpl implements TUserService {
         //生成cookie
         String ticket = UUIDUtil.uuid();
 
-        request.getSession().setAttribute(ticket,tUser);
+        //将用户信息存储到session
+//        request.getSession().setAttribute(ticket,tUser);
+
+        //将用户信息存储到redis
+        redisUtil.set("user:" + ticket,tUser);
+
         CookieUtil.setCookie(request,response,"userTicket",ticket);
 
         return RespVo.success();
+    }
+
+
+    /**
+     * 根据cookie获取用户
+     *
+     * @param userTicket
+     * @return
+     */
+    @Override
+    public TUser getTuseByCookie(String userTicket,HttpServletRequest request,HttpServletResponse response) {
+        if(StringUtils.isEmpty(userTicket)){
+            return null;
+        }
+
+        TUser tUser = (TUser) redisUtil.get("user:" + userTicket);
+
+        if(tUser != null){
+            CookieUtil.setCookie(request,response,"userTicket",userTicket);
+        }
+        return tUser;
     }
 }
