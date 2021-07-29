@@ -1,6 +1,7 @@
 package com.example.demo.seckill.controller;
 
 import com.example.demo.seckill.bean.TUser;
+import com.example.demo.seckill.service.TGoodsService;
 import com.example.demo.seckill.service.TUserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -29,12 +30,15 @@ public class GoodsController {
     @Autowired
     private TUserService tUserService;
 
+    @Autowired
+    private TGoodsService tGoodsService;
+
     /**
      * 页面跳转 跳转到
      * @return
      */
-    @RequestMapping("/toList")
-    public String toList(HttpServletRequest request, HttpServletResponse  response, Model model, @CookieValue("userTicket") String ticket){
+    @RequestMapping("/toList1")
+    public String toList1(HttpServletRequest request, HttpServletResponse  response, Model model, @CookieValue("userTicket") String ticket){
 
         if(StringUtils.isEmpty(ticket)){
             return "login";
@@ -54,10 +58,11 @@ public class GoodsController {
 
 
 
-    @RequestMapping("/toDetail")
-    public String toDetail(Model model,TUser tUser){
+    @RequestMapping("/toList")
+    public String toList(Model model,TUser tUser){
 
         model.addAttribute("user",tUser);
+        model.addAttribute("goodsList",tGoodsService.findGoodsVo());
             return "goodsList";
     }
 
