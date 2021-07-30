@@ -28,4 +28,15 @@ public class TGoodsServiceImpl implements TGoodsService {
 
         return tGoodsDao.findGoodsVo();
     }
+
+    /**
+     * 获取商品详情
+     *
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public GoodsVo findGoodsVoByGoodsId(Long goodsId) {
+        return tGoodsDao.findGoodsVoByGoodsId(goodsId);
+    }
 }

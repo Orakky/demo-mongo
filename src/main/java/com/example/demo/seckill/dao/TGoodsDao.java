@@ -27,4 +27,12 @@ public interface TGoodsDao {
      * @return
      */
     List<GoodsVo> findGoodsVo();
+
+
+    /**
+     * 根据商品id获取商品详情
+     * @param goodsId
+     * @return
+     */
+    GoodsVo findGoodsVoByGoodsId(Long goodsId);
 }

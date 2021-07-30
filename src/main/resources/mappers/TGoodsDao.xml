@@ -24,9 +24,39 @@
 
 <!--  获取商品列表-->
   <select id="findGoodsVo" resultType="com.example.demo.seckill.bean.GoodsVo">
-
+    select
+      g.id,
+      g.goods_name,
+      g.goods_title,
+      g.goods_img,
+      g.goods_detail,
+      g.goods_price,
+      g.goods_stock,
+      sg.seckill_price,
+      sg.start_date,
+      sg.end_date
+    from t_goods g
+    left join t_seckill_goods sg on g.id = sg.goods_id
   </select>
 
+<!--  根据商品id获取商品详情-->
+  <select id="findGoodsVoByGoodsId" resultType="com.example.demo.seckill.bean.GoodsVo">
+    select
+      g.id,
+      g.goods_name,
+      g.goods_title,
+      g.goods_img,
+      g.goods_detail,
+      g.goods_price,
+      g.goods_stock,
+      sg.seckill_price,
+      sg.start_date,
+      sg.end_date
+    from t_goods g
+    left join t_seckill_goods sg on g.id = sg.goods_id
+    where g.id = #{goodsId}
+
+  </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

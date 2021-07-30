@@ -1,5 +1,6 @@
 package com.example.demo.seckill.controller;
 
+import com.example.demo.seckill.bean.GoodsVo;
 import com.example.demo.seckill.bean.TUser;
 import com.example.demo.seckill.service.TGoodsService;
 import com.example.demo.seckill.service.TUserService;
@@ -10,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * 商品页面controller
@@ -57,7 +60,12 @@ public class GoodsController {
     }
 
 
-
+    /**
+     * 商品列表
+     * @param model
+     * @param tUser
+     * @return
+     */
     @RequestMapping("/toList")
     public String toList(Model model,TUser tUser){
 
@@ -66,4 +74,37 @@ public class GoodsController {
             return "goodsList";
     }
 
+
+    /**
+     * 跳转至商品详情页面
+     */
+    @RequestMapping("/toDetail")
+    public String toDetail(Model model,TUser tUser,@PathVariable Long goodsId){
+        model.addAttribute("user",tUser);
+        GoodsVo goodsVo = tGoodsService.findGoodsVoByGoodsId(goodsId);
+        Date startDate = goodsVo.getStartDate();
+        Date endDate = goodsVo.getEndDate();
+        Date nowDate = new Date();
+
+        //秒杀状态
+        int secKillStatus = 0;
+
+        //秒杀倒计时
+        int remainSeconds = 0;
+
+        if(nowDate.before(startDate)){
+            remainSeconds = (int) (startDate.getTime() - nowDate.getTime()) / 1000;
+        }else if(nowDate.after(endDate)){
+            secKillStatus  = 2;//秒杀已结束
+            remainSeconds = -1;
+        }else {
+            secKillStatus = 1;
+            remainSeconds = 0;
+        }
+        model.addAttribute("remainSeconds",remainSeconds);
+        model.addAttribute("secKillStatus",secKillStatus);
+        model.addAttribute("goods",goodsVo);
+        return "goodsDetail";
+
+    }
 }
