@@ -47,12 +47,12 @@ public class TOrder implements Serializable {
     /**
      * 1PC 2ANDROID 3IOS
      */
-    private Byte orderChannel;
+    private Integer orderChannel;
 
     /**
      * 订单状态 0新建未支付 1已支付 2已发货 3已收货 4已退款 5已完成
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * 订单的创建时间
@@ -122,19 +122,19 @@ public class TOrder implements Serializable {
         this.goodsPrice = goodsPrice;
     }
 
-    public Byte getOrderChannel() {
+    public Integer getOrderChannel() {
         return orderChannel;
     }
 
-    public void setOrderChannel(Byte orderChannel) {
+    public void setOrderChannel(Integer orderChannel) {
         this.orderChannel = orderChannel;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

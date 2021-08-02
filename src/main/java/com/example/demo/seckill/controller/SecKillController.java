@@ -1,8 +1,12 @@
 package com.example.demo.seckill.controller;
 
 import com.example.demo.seckill.bean.GoodsVo;
+import com.example.demo.seckill.bean.TOrder;
+import com.example.demo.seckill.bean.TSeckillOrder;
 import com.example.demo.seckill.bean.TUser;
 import com.example.demo.seckill.service.TGoodsService;
+import com.example.demo.seckill.service.TOrderService;
+import com.example.demo.seckill.service.TSeckillOrderService;
 import com.example.demo.utils.Response.RespVoEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,13 @@ public class SecKillController {
     private TGoodsService tGoodsService;
 
 
+    @Autowired
+    private TSeckillOrderService tSeckillOrderService;
+
+    @Autowired
+    private TOrderService tOrderService;
+
+
 
 
     @RequestMapping("/hello")
@@ -52,18 +63,27 @@ public class SecKillController {
             return "login";
         }
         model.addAttribute("user",tUser);
-        GoodsVo goodsVo = tGoodsService.findGoodsVoByGoodsId(goodsId);
+        GoodsVo goods = tGoodsService.findGoodsVoByGoodsId(goodsId);
 
         //判断库存
-        if(goodsVo.getStockCount() < 1){
+        if(goods.getStockCount() < 1){
             model.addAttribute("errorMsg", RespVoEnum.EMPTY_STOCK.getMessage());
             return "secKillFail";
         }
+        //判断是否重复抢购
+        TSeckillOrder secKillOrder = tSeckillOrderService.getOne(tUser.getId(),goodsId);
+        if(secKillOrder != null){
+            //已经有对应的订单和产品了
+            model.addAttribute("errorMsg",RespVoEnum.REPEAT_ERROR.getMessage());
+            return "secKillFail";
+
+        }
+        TOrder tOrder = tOrderService.secKill(tUser,goods);
+        model.addAttribute("order",tOrder);
+        model.addAttribute("goods",goods);
+        return "orderDetail";
 
 
-
-
-        return "doSecKill";
 
     }
 

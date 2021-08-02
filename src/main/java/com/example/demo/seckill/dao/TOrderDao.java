@@ -1,7 +1,9 @@
 package com.example.demo.seckill.dao;
 
 import com.example.demo.seckill.bean.TOrder;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface TOrderDao {
     int deleteByPrimaryKey(Long id);
 

@@ -18,7 +18,14 @@
     from t_seckill_goods
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+<!--  根据goodsId拿到秒杀商品-->
+    <select id="getOne" resultType="com.example.demo.seckill.bean.TSeckillGoods">
+
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_seckill_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>

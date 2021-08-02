@@ -16,7 +16,24 @@
     from t_seckill_order
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+
+<!--  判断是否重复抢购-->
+    <select id="getOne" resultType="com.example.demo.seckill.bean.TSeckillOrder">
+      SELECT
+        id,
+        user_id AS userId,
+        order_id AS orderId,
+        goods_id AS goodsId
+      FROM
+        t_seckill_order
+      WHERE
+        userId = #{param1} and goodsId = #{param2}
+    </select>
+
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_seckill_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
