@@ -4,6 +4,7 @@ import com.example.demo.seckill.bean.GoodsVo;
 import com.example.demo.seckill.bean.TUser;
 import com.example.demo.seckill.service.TGoodsService;
 import com.example.demo.seckill.service.TUserService;
+import com.example.demo.utils.RedisUtils.RedisUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +39,12 @@ public class GoodsController {
 
     @Autowired
     private TGoodsService tGoodsService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private ThymeleafViewResolver thymeleafViewResolver;
 
     /**
      * 页面跳转 跳转到
@@ -66,20 +76,42 @@ public class GoodsController {
      * @param tUser
      * @return
      */
-    @RequestMapping("/toList")
-    public String toList(Model model,TUser tUser){
+    @RequestMapping(value ="/toList",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String toList(Model model,TUser tUser,HttpServletRequest request,HttpServletResponse response){
 
+
+        //redis中获取页面 如果不为空 直接返回页面
+        String html = (String)redisUtil.get("goodsList");
+        if(!StringUtils.isEmpty(html)){
+            //如果不为空
+            return html;
+        }
         model.addAttribute("user",tUser);
         model.addAttribute("goodsList",tGoodsService.findGoodsVo());
-            return "goodsList";
+        //如果为空 手动渲染并且存入redis 再返回
+        WebContext webContext = new WebContext(request,response,request.getServletContext(),request.getLocale(),model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goodsList", webContext);
+        if(!StringUtils.isEmpty(html)){
+            redisUtil.set("goodsList",html,6000);
+        }
+
+        return html;
+//        return "goodsList";
     }
 
 
     /**
      * 跳转至商品详情页面
      */
-    @RequestMapping("/toDetail")
-    public String toDetail(Model model,TUser tUser,@PathVariable Long goodsId){
+    @RequestMapping(value = "/toDetail/{goodsId}",produces = "text/html;charset=utf-8")
+    public String toDetail(Model model,TUser tUser,@PathVariable Long goodsId,HttpServletRequest request,HttpServletResponse response){
+
+        String html = (String) redisUtil.get("goodsDetail:"+goodsId);
+
+        if(!StringUtils.isEmpty(html)){
+            return html;
+        }
         model.addAttribute("user",tUser);
         GoodsVo goodsVo = tGoodsService.findGoodsVoByGoodsId(goodsId);
         Date startDate = goodsVo.getStartDate();
@@ -104,7 +136,16 @@ public class GoodsController {
         model.addAttribute("remainSeconds",remainSeconds);
         model.addAttribute("secKillStatus",secKillStatus);
         model.addAttribute("goods",goodsVo);
-        return "goodsDetail";
+
+        //如果为空 则手动渲染界面并存入redis中 再返回
+        WebContext webContext = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail:" + goodsId, webContext);
+        if(!StringUtils.isEmpty(html)){
+            redisUtil.set("goodsDetail:"+goodsId,html,6000);
+        }
+
+        return html;
+//        return "goodsDetail";
 
     }
 }

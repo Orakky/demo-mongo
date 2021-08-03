@@ -2,7 +2,6 @@ package com.example.demo.register.service;
 
 
 import com.example.demo.register.bean.SysUserRole;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
