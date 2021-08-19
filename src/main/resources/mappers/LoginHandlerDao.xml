@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.login.dao.LoginHandlerDao">
+
+
+    <select id="queryUserById" resultType="com.example.demo.login.bean.User" parameterType="com.example.demo.login.bean.User">
+            select userid as userId,
+                   password as password,
+                   nickname as nickname,
+                   age as age
+            from user
+            where userid = #{userId} and password = #{password}
+    </select>
+</mapper>
